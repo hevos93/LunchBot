@@ -18,12 +18,14 @@ async fn main() -> std::io::Result<()> {
     dotenv().ok();
 
     // Config variables
-    let port = match env::var("LUNCHBOT_PORT") {
+    let port_env = match env::var("LUNCHBOT_PORT") {
         Ok(v) => v.to_string(),
         Err(_) => {
             format!("Error loading ENV variables\n")
         }
     };
+    let port: u16 = port_env.parse().unwrap();
+    
 
     
     println!("Starting at port {}", port);
@@ -31,7 +33,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .service(hello_world)
     })
-        .bind(("127.0.0.1", 8000))?
+        .bind(("127.0.0.1", port))?
         .run()
         .await
 }
