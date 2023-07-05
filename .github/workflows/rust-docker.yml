@@ -1,4 +1,4 @@
-name: Rust
+name: Rust and Docker testing
 
 on:
   push:
@@ -10,8 +10,7 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  build:
-
+  rust_build:
     runs-on: ubuntu-latest
 
     steps:
@@ -26,3 +25,17 @@ jobs:
       with:
         name: lunchbot
         path: target/release/lunchbot
+
+  docker_build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    - name: Download the Rust binary
+      uses: actions/download-artifact@v3
+      with:
+        name: lunchbot
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
