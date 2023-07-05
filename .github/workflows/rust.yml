@@ -15,8 +15,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Build
-      run: cargo build --verbose
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    - name: Build Rust binary
+      run: cargo build --release --verbose
     - name: Run tests
       run: cargo test --verbose
+    - name: Archive Rust binary
+      uses: actions/upload-artifact@v3
+      with:
+        name: lunchbot
+        path: target/release/lunchbot
