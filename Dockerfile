@@ -1,6 +1,5 @@
-FROM alpine
+FROM almalinux
 WORKDIR /app
 COPY target/release/lunchbot lunchbot
-# This is required for Alpine to run the binary
-RUN apk add --no-cache gcompat libgcc
+COPY .env .
 CMD [ "./lunchbot" ]
