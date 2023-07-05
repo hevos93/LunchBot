@@ -21,14 +21,6 @@ jobs:
     - name: Run tests
       run: cargo test --verbose
     - name: Archive Rust binary
-      uses: actions/upload-artifact@v3
-      with:
-        name: lunchbot
-        path: target/release/lunchbot
 
-    - name: Download the Rust binary
-      uses: actions/download-artifact@v3
-      with:
-        name: lunchbot
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
