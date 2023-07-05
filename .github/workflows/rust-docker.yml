@@ -23,4 +23,4 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag lunchbot
     - name: Run the Docker image
-      run: docker run lunchbot .
+      run: docker run lunchbot
