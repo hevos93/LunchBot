@@ -9,3 +9,11 @@ These variables can be changed in a docker-compose file to change how the API ac
 | --- | --- | --- | --- |
 | LUNCHBOT_PORT | 4000 | This is the port where the API can receive requests. | Any port over 1024 |
 | RUST_LOG | info | The level of logging | trace, debug, info, info, warn, error | 
+
+
+
+
+
+
+## Thanks to
+https://transform.tools/json-to-rust-serde
