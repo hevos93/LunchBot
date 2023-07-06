@@ -19,7 +19,7 @@ async fn main() -> std::io::Result<()> {
 
     // Config variables
     let default_port: u16 = 4000;    
-    let chad: u16 = match env::var("LUNCHBOT_PORT") {
+    let port: u16 = match env::var("LUNCHBOT_PORT") {
         Ok(v) => v.parse().unwrap(),
         Err(_) => {
             format!("ENV Variable missing, defaulting");
@@ -28,12 +28,12 @@ async fn main() -> std::io::Result<()> {
     };
 
     
-    println!("Starting at port {}", chad);
+    println!("Starting at port {}", port);
     HttpServer::new(move ||{
         App::new()
             .service(hello_world)
     })
-        .bind(("127.0.0.1", chad))?
+        .bind(("127.0.0.1", port))?
         .run()
         .await
 }
