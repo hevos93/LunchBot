@@ -18,15 +18,7 @@ async fn main() -> std::io::Result<()> {
     dotenv().ok();
 
     // Config variables
-    let default_port: u16 = 4000;
-    //let port_env = match env::var("LUNCHBOT_PORT") {
-    //    Ok(v) => v.to_string()parse().unwrap(),
-    //    Err(_) => {
-    //        format!("Error loading ENV variables\n")
-    //    }
-    //};
-    //let port: u16 = port_env.parse().unwrap();
-    
+    let default_port: u16 = 4000;    
     let chad: u16 = match env::var("LUNCHBOT_PORT") {
         Ok(v) => v.parse().unwrap(),
         Err(_) => {
