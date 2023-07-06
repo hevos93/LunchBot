@@ -23,4 +23,5 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag lunchbot
     - name: Run the Docker image
+      timeout-minutes: 2
       run: docker run lunchbot
