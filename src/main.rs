@@ -18,22 +18,30 @@ async fn main() -> std::io::Result<()> {
     dotenv().ok();
 
     // Config variables
-    let port_env = match env::var("LUNCHBOT_PORT") {
-        Ok(v) => v.to_string(),
+    let default_port: u16 = 4000;
+    //let port_env = match env::var("LUNCHBOT_PORT") {
+    //    Ok(v) => v.to_string()parse().unwrap(),
+    //    Err(_) => {
+    //        format!("Error loading ENV variables\n")
+    //    }
+    //};
+    //let port: u16 = port_env.parse().unwrap();
+    
+    let chad: u16 = match env::var("LUNCHBOT_PORT") {
+        Ok(v) => v.parse().unwrap(),
         Err(_) => {
-            format!("Error loading ENV variables\n")
+            format!("ENV Variable missing, defaulting");
+            default_port
         }
     };
-    let port: u16 = port_env.parse().unwrap();
-    
 
     
-    println!("Starting at port {}", port);
+    println!("Starting at port {}", chad);
     HttpServer::new(move ||{
         App::new()
             .service(hello_world)
     })
-        .bind(("127.0.0.1", port))?
+        .bind(("127.0.0.1", chad))?
         .run()
         .await
 }
