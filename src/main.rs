@@ -11,7 +11,7 @@ mod models;
 mod repositories;
 
 // Local Functions
-use crate::api::api_calls::hello_world;
+use crate::api::api_calls::healtcheck;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -35,7 +35,7 @@ async fn main() -> std::io::Result<()> {
     info!("LunchBot is running at {}", port);
     HttpServer::new(move ||{
         App::new()
-            .service(hello_world)
+            .service(healtcheck)
     })
         .bind(("127.0.0.1", port))?
         .run()
