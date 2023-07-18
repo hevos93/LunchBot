@@ -12,31 +12,31 @@ pub struct FbuResponse {
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Category {
-    pub id: i64,
+    pub id: Value, // Changed to Value to avoid panic,
     pub name: String,
-    pub sort_order: i64,
+    pub sort_order: Value, // Changed to Value to avoid panic,
     pub icon_id: Value,
-    pub page_id: i64,
+    pub page_id: Value, // Changed to Value to avoid panic,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Category2 {
-    pub id: i64,
+    pub id: Value, // Changed to Value to avoid panic,
     pub name: String,
-    pub page_id: i64,
+    pub page_id: Value, // Changed to Value to avoid panic,
     pub page_name: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Article {
-    pub id: i64,
+    pub id: Value, // Changed to Value to avoid panic,
     pub categories: Vec<Category2>,
-    pub category_id: i64,
+    pub category_id: Value, // Changed to Value to avoid panic,
     pub name: String,
     pub image_url: String,
-    pub gross_price: i64,
+    pub gross_price: Value, // Changed to Value to avoid panic,
     pub description: String,
     pub description_short: String,
     pub allergens: String,
@@ -47,7 +47,7 @@ pub struct Article {
     pub price_group_name: Value,
     pub child_article_groups: Value,
     pub reward_campaigns: Vec<Value>,
-    pub default_quantity: i64,
+    pub default_quantity: Value, // Changed to Value to avoid panic,
     pub hide_price_on_tile: bool,
-    pub quantity_step: i64,
+    pub quantity_step: Value, // Changed to Value to avoid panic,
 }
