@@ -2,7 +2,7 @@
 use std::env;
 use dotenv::dotenv;
 use actix_web::{App, HttpServer};
-use log::{info, error};
+use log::{info, warn};
 use pretty_env_logger as logger;
 
 // Repo Modules
@@ -27,7 +27,7 @@ async fn main() -> std::io::Result<()> {
     let port: u16 = match env::var("LUNCHBOT_PORT") {
         Ok(v) => v.parse().unwrap(),
         Err(_) => {
-            error!{"ENV: LUNCHBOT_PORT missing, defaulting to {}", default_port};
+            warn!{"ENV: LUNCHBOT_PORT missing, defaulting to {}", default_port};
             default_port
         }
     };
