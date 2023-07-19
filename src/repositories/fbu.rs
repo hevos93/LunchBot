@@ -73,7 +73,7 @@ fn format_message (lunch_menu: Vec<String>) -> String {
 
     for item in lunch_menu {
         if counter == 0 {
-            message = "# ".to_string() + &item + "\n";
+            message = "## ".to_string() + &item + "\n";
         }
         if counter == 1 {
             message = message + &item + "\n";
