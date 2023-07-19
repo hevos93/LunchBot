@@ -1,7 +1,8 @@
 // Crates
 use log::info;
 use reqwest::Client;
-// use serde_json::json;
+use reqwest::header::CONTENT_TYPE;
+use serde_json::json;
 
 // Local Functions
 use crate::models::fbu::FbuResponse;
@@ -22,7 +23,7 @@ impl ReqwestRepo {
         ReqwestRepo{ client }
     }
 
-    // FBU functions
+    // FBU Functions
     pub async fn get_fbu(&self, day: String) -> (Result<FbuResponse, reqwest::Error>,Result<FbuResponse, reqwest::Error>,Result<FbuResponse, reqwest::Error>) {
         info!("Requesting FBU lunch menu");
         
@@ -89,5 +90,23 @@ impl ReqwestRepo {
         
         info!("Returning FBU lunch menu");
         (fresh_response, street_response, flow_response)
+    }
+
+
+    // Webex Functions
+    pub async fn post_to_webex(&self, message: String) -> Result<reqwest::Response, reqwest::Error> {
+        let url = get_url("WEBEX_URL".to_string());
+
+        let body = json!({
+            "markdown": message
+        });
+
+        let webex_response = self.client.post(url)
+        .header(CONTENT_TYPE, "application/json")
+        .json(&body)
+        .send()
+        .await;
+
+    webex_response
     }
 }

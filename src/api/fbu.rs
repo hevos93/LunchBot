@@ -25,7 +25,26 @@ pub async fn fbu(path: Path<String>) -> HttpResponse {
     };
 
     let lunch_menu = format_fbu(response);
+
+    let response = match client.post_to_webex(lunch_menu).await {
+        Ok(v) => v,
+        Err(e) => {
+            error!("An error occured! -> {}", e);
+            return HttpResponse::InternalServerError().body("Something went wrong! Check the logs")
+        }
+    };
     
+    let _body =  match response.error_for_status() {
+        Ok(v) => {
+            info!("Response code from Webex was Ok");
+            v.error_for_status().is_ok()
+        },
+        Err(e) => {
+            error!("Response code from Webex was not Ok. -> {}", e);
+            return HttpResponse::InternalServerError().body("The reported response code from Webex was not Ok, check the logs")
+    }
+    };
+
     info!("Returning HttpResponse");
-    HttpResponse::Ok().body(lunch_menu)
+    HttpResponse::Ok().body("Lunch menu fetched and returned")
 }
