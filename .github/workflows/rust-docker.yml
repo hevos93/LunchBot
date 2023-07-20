@@ -22,3 +22,7 @@ jobs:
       run: cargo test --verbose
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag lunchbot
+    - name: Start the Docker Compose
+      run: docker compose up -d
+    - name: Wait and check for health
+      run: sleep 5s && curl localhost:4000/health
