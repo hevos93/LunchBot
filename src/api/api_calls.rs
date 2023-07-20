@@ -5,5 +5,5 @@ use log::info;
 #[get("/health")]
 pub async fn healtcheck() -> HttpResponse {
     info!("Healtcheck");
-    HttpResponse::Ok().json("LunchBot is still alive")
+    HttpResponse::Ok().json("LunchBot is still alive\n")
 }
