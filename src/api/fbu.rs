@@ -3,7 +3,7 @@ use log::{info, error};
 use actix_web::{get, HttpResponse, web::Path};
 // Repo Modules
 use crate::repositories::reqwest_repo::ReqwestRepo;
-use crate::repositories::fbu::format_fbu;
+use crate::repositories::fbu::{format_fbu, format_fbu_json};
 
 // Local Functions
      
@@ -47,4 +47,26 @@ pub async fn fbu(path: Path<String>) -> HttpResponse {
 
     info!("Returning HttpResponse");
     HttpResponse::Ok().body("Lunch menu fetched and returned")
+}
+
+#[get("/json/fbu/{day}")]
+pub async fn fbu_json(path: Path<String>) -> HttpResponse {
+    info!("FBU JSON");
+
+    let day = path.into_inner();
+
+    let client = ReqwestRepo::init().await;
+
+    let response = match client.get_fbu(day).await {
+        (Ok(v1),Ok(v2),Ok(v3)) => (v1,v2,v3),
+        _ => {
+            let error_msg = "Something went wrong with lunch requests!".to_string();
+            error!("{}", error_msg);
+            return HttpResponse::InternalServerError().body(error_msg)
+        } 
+    };
+
+    let response = format_fbu_json(response);
+
+    HttpResponse::NotImplemented().json(response)
 }

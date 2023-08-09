@@ -5,3 +5,5 @@ docker build -t lunchbot .
 docker compose up -d
 sleep 5s
 curl localhost:4000/health
+sleep 5s
+docker compose down

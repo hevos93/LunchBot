@@ -51,3 +51,39 @@ pub struct Article {
     pub hide_price_on_tile: bool,
     pub quantity_step: Value, // Changed to Value to avoid panic,
 }
+
+
+
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct FbuJSON {
+    pub fresh: Fresh,
+    pub street: Street,
+    pub flow: Flow,
+    pub allergens: String,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Fresh {
+    pub name: String,
+    pub info: String,
+    pub menu: String,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Street {
+    pub name: String,
+    pub info: String,
+    pub menu: String,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Flow {
+    pub name: String,
+    pub info: String,
+    pub menu: String,
+}
