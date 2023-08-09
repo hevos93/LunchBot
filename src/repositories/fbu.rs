@@ -1,7 +1,7 @@
 // Crates
 use log::info;
 // Repo Modules
-use crate::models::fbu::FbuResponse;
+use crate::models::fbu::{FbuResponse, FbuJSON, Fresh, Street, Flow};
 
 // Local Functions
 
@@ -86,4 +86,82 @@ fn format_message (lunch_menu: Vec<String>) -> String {
     }
     info!("Returning formatted message");
     message
+}
+
+pub fn format_fbu_json(response: (FbuResponse,FbuResponse,FbuResponse)) -> FbuJSON {
+    info!("Formatting FBU JSON");
+
+    let allergens = &response.0.article.allergens;
+
+    let response_fresh = response.0.to_owned();
+    let response_street = response.1;
+    let response_flow = response.2;
+
+    let lunch_menu_fresh = get_lunch_menu(response_fresh);
+    let lunch_menu_street = get_lunch_menu(response_street);
+    let lunch_menu_flow = get_lunch_menu(response_flow);
+
+    let json_response = format_json(lunch_menu_fresh, lunch_menu_street, lunch_menu_flow, allergens);
+    info!("Returning JSON");
+    json_response
+}
+
+fn format_json(lunch_menu_fresh: Vec<String>, lunch_menu_street: Vec<String>, lunch_menu_flow: Vec<String>, allergens: &String) -> FbuJSON {
+    info!("Formatting to JSON");
+    let fresh_obj = get_obj_json(lunch_menu_fresh);
+    let street_obj = get_obj_json(lunch_menu_street);
+    let flow_obj = get_obj_json(lunch_menu_flow);
+
+    let fresh: Fresh = Fresh {
+        name: fresh_obj.0,
+        info: fresh_obj.1,
+        menu: fresh_obj.2
+    };
+
+    let street: Street = Street {
+        name: street_obj.0,
+        info: street_obj.1,
+        menu: street_obj.2
+    };
+
+    let flow: Flow = Flow {
+        name: flow_obj.0,
+        info: flow_obj.1,
+        menu: flow_obj.2
+    };
+
+
+    let response: FbuJSON = FbuJSON { 
+        fresh: fresh, 
+        street: street,
+        flow: flow,
+        allergens: allergens.to_string() 
+    };
+    info!("Returning formatted JSON");
+    response
+}
+
+fn get_obj_json(lunch_menu: Vec<String>) -> (String, String, String) {
+    info!("Extracting object");
+    let mut response: (String, String, String) = ("Name".to_string(), "Info".to_string(), "Menu".to_string());
+    let mut menu = String::new();
+    let mut counter = 0;
+
+    for item in lunch_menu {
+        if counter == 0 {
+            response.0 = item.clone();
+        }
+        if counter == 1 {
+            response.1 = item.clone();
+        }
+        if counter > 1 {
+            menu = menu + "- " + &item + "\n";    
+        }
+
+        counter = counter + 1;
+    };
+    response.2 = menu;
+
+    info!("Returning object");
+    response
 }
