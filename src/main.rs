@@ -12,7 +12,7 @@ mod repositories;
 
 // Local Functions
 use crate::api::api_calls::healtcheck;
-use crate::api::fbu::{fbu, fbu_json};
+use crate::api::fbu::{fbu, fbu_json, fbu_md};
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -39,6 +39,7 @@ async fn main() -> std::io::Result<()> {
             .service(healtcheck)
             .service(fbu)
             .service(fbu_json)
+            .service(fbu_md)
     })
         .bind(("0.0.0.0", port))?
         .run()

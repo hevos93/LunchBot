@@ -68,5 +68,29 @@ pub async fn fbu_json(path: Path<String>) -> HttpResponse {
 
     let response = format_fbu_json(response);
 
-    HttpResponse::NotImplemented().json(response)
+    info!("Returning FBU JSON");
+    HttpResponse::Ok().json(response)
+}
+
+#[get("/md/fbu/{day}")]
+pub async fn fbu_md(path: Path<String>) -> HttpResponse {
+    info!("FBU MD");
+
+    let day = path.into_inner();
+
+    let client = ReqwestRepo::init().await;
+
+    let response = match client.get_fbu(day).await {
+        (Ok(v1),Ok(v2),Ok(v3)) => (v1,v2,v3),
+        _ => {
+            let error_msg = "Something went wrong with lunch requests!".to_string();
+            error!("{}", error_msg);
+            return HttpResponse::InternalServerError().body(error_msg)
+        } 
+    };
+
+    let lunch_menu = format_fbu(response);
+
+    info!("Returning FBU MD");
+    HttpResponse::Ok().body(lunch_menu)
 }
