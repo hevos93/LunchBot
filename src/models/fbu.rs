@@ -62,6 +62,7 @@ pub struct FbuJSON {
     pub street: Street,
     pub flow: Flow,
     pub allergens: String,
+    pub day: String
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
