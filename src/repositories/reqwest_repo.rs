@@ -24,7 +24,7 @@ impl ReqwestRepo {
     }
 
     // FBU Functions
-    pub async fn get_fbu(&self, day: String) -> (Result<FbuResponse, reqwest::Error>,Result<FbuResponse, reqwest::Error>,Result<FbuResponse, reqwest::Error>) {
+    pub async fn get_fbu(&self, day: &String) -> (Result<FbuResponse, reqwest::Error>,Result<FbuResponse, reqwest::Error>,Result<FbuResponse, reqwest::Error>) {
         info!("Requesting FBU lunch menu");
         
         let mut fresh = String::new();

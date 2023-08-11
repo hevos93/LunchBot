@@ -15,7 +15,7 @@ pub async fn fbu(path: Path<String>) -> HttpResponse {
 
     let client = ReqwestRepo::init().await;
 
-    let response = match client.get_fbu(day).await {
+    let response = match client.get_fbu(&day).await {
         (Ok(v1),Ok(v2),Ok(v3)) => (v1,v2,v3),
         _ => {
             let error_msg = "Something went wrong with lunch requests!".to_string();
@@ -24,7 +24,7 @@ pub async fn fbu(path: Path<String>) -> HttpResponse {
         } 
     };
 
-    let lunch_menu = format_fbu(response);
+    let lunch_menu = format_fbu(response, &day);
 
     let response = match client.post_to_webex(lunch_menu).await {
         Ok(v) => v,
@@ -57,7 +57,7 @@ pub async fn fbu_json(path: Path<String>) -> HttpResponse {
 
     let client = ReqwestRepo::init().await;
 
-    let response = match client.get_fbu(day).await {
+    let response = match client.get_fbu(&day).await {
         (Ok(v1),Ok(v2),Ok(v3)) => (v1,v2,v3),
         _ => {
             let error_msg = "Something went wrong with lunch requests!".to_string();
@@ -66,7 +66,7 @@ pub async fn fbu_json(path: Path<String>) -> HttpResponse {
         } 
     };
 
-    let response = format_fbu_json(response);
+    let response = format_fbu_json(response, &day);
 
     info!("Returning FBU JSON");
     HttpResponse::Ok().json(response)
@@ -80,7 +80,7 @@ pub async fn fbu_md(path: Path<String>) -> HttpResponse {
 
     let client = ReqwestRepo::init().await;
 
-    let response = match client.get_fbu(day).await {
+    let response = match client.get_fbu(&day).await {
         (Ok(v1),Ok(v2),Ok(v3)) => (v1,v2,v3),
         _ => {
             let error_msg = "Something went wrong with lunch requests!".to_string();
@@ -89,7 +89,7 @@ pub async fn fbu_md(path: Path<String>) -> HttpResponse {
         } 
     };
 
-    let lunch_menu = format_fbu(response);
+    let lunch_menu = format_fbu(response, &day);
 
     info!("Returning FBU MD");
     HttpResponse::Ok().body(lunch_menu)
